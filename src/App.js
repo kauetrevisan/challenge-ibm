@@ -1,10 +1,12 @@
 import React from "react";
-function App() {
-  return (
-    <div className="App">
-      <p>Challenge IBM</p>
-    </div>
-  );
-}
+import Routes from "./Routes";
+import { CssBaseline } from "@material-ui/core";
+
+const App = () => (
+  <>
+    <CssBaseline />
+    <Routes />
+  </>
+);
 
 export default App;
