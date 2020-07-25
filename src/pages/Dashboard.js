@@ -6,6 +6,7 @@ import { Search } from "@material-ui/icons";
 // Components
 import Navbar from "../components/Navbar";
 import ContactCard from "../components/ContactCard";
+import Loading from "../components/Loading";
 // Utils
 import api from "../utils/api";
 
@@ -28,10 +29,13 @@ const Dashboard = () => {
   const [contacts, setContacts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [filteredContacts, setFilteredContacts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Fetch the data when the page loads
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+
       try {
         const { data } = await api.get("users");
 
@@ -39,6 +43,8 @@ const Dashboard = () => {
       } catch (err) {
         // TODO: Handle error data
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -60,27 +66,33 @@ const Dashboard = () => {
       <Navbar />
 
       <div className="container mt-4">
-        <TextField
-          id="search"
-          placeholder="Search"
-          fullWidth
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className="ml-3 mr-3"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          }}
-        />
+        {loading ? (
+          <Loading message="Loading contacts" />
+        ) : (
+          <>
+            <TextField
+              id="search"
+              placeholder="Search"
+              fullWidth
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="ml-3 mr-3"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-        <div className={classes.cardsContainer}>
-          {filteredContacts.map((contact, index) => (
-            <ContactCard key={index} contact={contact} />
-          ))}
-        </div>
+            <div className={classes.cardsContainer}>
+              {filteredContacts.map((contact, index) => (
+                <ContactCard key={index} contact={contact} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
