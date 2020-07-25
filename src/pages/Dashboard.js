@@ -7,6 +7,7 @@ import { Search } from "@material-ui/icons";
 import Navbar from "../components/Navbar";
 import ContactCard from "../components/ContactCard";
 import Loading from "../components/Loading";
+import CustomSnackbar from "../components/CustomSnackbar";
 // Utils
 import api from "../utils/api";
 
@@ -30,6 +31,7 @@ const Dashboard = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, type: "info", message: "" });
 
   // Fetch the data when the page loads
   useEffect(() => {
@@ -41,8 +43,13 @@ const Dashboard = () => {
 
         setContacts(data);
       } catch (err) {
-        // TODO: Handle error data
-        console.log(err);
+        console.log(err, err.response);
+
+        setSnackbar({
+          open: true,
+          type: "error",
+          message: "An error happened when getting the contacts",
+        });
       } finally {
         setLoading(false);
       }
@@ -94,6 +101,13 @@ const Dashboard = () => {
           </>
         )}
       </div>
+
+      <CustomSnackbar
+        open={snackbar.open}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        type={snackbar.type}
+        message={snackbar.message}
+      />
     </>
   );
 };

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 // Material ui
 import { Typography, makeStyles, Paper, Button } from "@material-ui/core";
 // Components
 import CustomTextField from "../components/CustomTextField";
+import CustomSnackbar from "../components/CustomSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +24,8 @@ const Login = () => {
   // Hooks
   const classes = useStyles();
 
+  const [snackbar, setSnackbar] = useState({ open: false, type: "info", message: "" });
+
   const initialValues = { email: "", password: "" };
 
   const validationSchema = yup.object({
@@ -32,7 +35,12 @@ const Login = () => {
 
   const handleSubmit = (data) => {
     console.log(data);
-    // TODO: Handle authentication process
+
+    setSnackbar({
+      open: true,
+      type: "error",
+      message: "An error happened when getting the contacts",
+    });
   };
 
   return (
@@ -76,6 +84,13 @@ const Login = () => {
           )}
         </Formik>
       </Paper>
+
+      <CustomSnackbar
+        open={snackbar.open}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        type={snackbar.type}
+        message={snackbar.message}
+      />
     </div>
   );
 };
