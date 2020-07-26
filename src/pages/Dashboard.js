@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 // Material ui
-import { makeStyles, TextField, InputAdornment } from "@material-ui/core";
+import { makeStyles, TextField, InputAdornment, Button } from "@material-ui/core";
 // Material icons
 import { Search } from "@material-ui/icons";
 // Components
@@ -10,6 +10,7 @@ import Loading from "../components/Loading";
 import CustomSnackbar from "../components/CustomSnackbar";
 // Utils
 import api from "../utils/api";
+import AddContactsDialog from "../components/AddContactsDialog";
 
 const useStyles = makeStyles((theme) => ({
   cardsContainer: {
@@ -32,6 +33,7 @@ const Dashboard = () => {
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, type: "info", message: "" });
+  const [openAddDialog, setOpenAddDialog] = useState(false);
 
   // Fetch the data when the page loads
   useEffect(() => {
@@ -80,6 +82,12 @@ const Dashboard = () => {
           <Loading message="Loading contacts" />
         ) : (
           <>
+            <div className="text-right">
+              <Button variant="outlined" onClick={() => setOpenAddDialog(true)}>
+                Add contacts
+              </Button>
+            </div>
+
             <TextField
               id="search"
               placeholder="Search"
@@ -104,6 +112,12 @@ const Dashboard = () => {
           </>
         )}
       </div>
+
+      <AddContactsDialog
+        open={openAddDialog}
+        onClose={() => setOpenAddDialog(false)}
+        setSnackbar={setSnackbar}
+      />
 
       <CustomSnackbar
         open={snackbar.open}
