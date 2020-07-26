@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar";
 import ContactCard from "../components/ContactCard";
 import Loading from "../components/Loading";
 import CustomSnackbar from "../components/CustomSnackbar";
+import SortButtons from "../components/SortButtons";
 // Utils
 import api from "../utils/api";
 import AddContactsDialog from "../components/AddContactsDialog";
@@ -34,6 +35,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, type: "info", message: "" });
   const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [sortDirection, setSortDirection] = useState("desc");
 
   // Fetch the data when the page loads
   useEffect(() => {
@@ -73,6 +75,12 @@ const Dashboard = () => {
     setFilteredContacts(contacts.filter((contact) => filterContact(contact, searchTerm)));
   }, [contacts, searchValue]);
 
+  const sortByName = (a, b) => {
+    const sortNum = a.Name > b.Name ? 1 : -1;
+
+    return sortDirection === "desc" ? sortNum : sortNum * -1;
+  };
+
   return (
     <>
       <Navbar />
@@ -88,24 +96,28 @@ const Dashboard = () => {
               </Button>
             </div>
 
-            <TextField
-              id="search"
-              placeholder="Search"
-              fullWidth
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              className="ml-3 mr-3"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <div className="d-flex align-items-center mt-3">
+              <TextField
+                id="search"
+                placeholder="Search"
+                fullWidth
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="ml-3 mr-3"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+
+              <SortButtons value={sortDirection} setValue={setSortDirection} />
+            </div>
 
             <div className={classes.cardsContainer}>
-              {filteredContacts.map((contact, index) => (
+              {filteredContacts.sort(sortByName).map((contact, index) => (
                 <ContactCard key={index} contact={contact} />
               ))}
             </div>
