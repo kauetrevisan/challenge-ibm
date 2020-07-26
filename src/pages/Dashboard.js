@@ -39,9 +39,12 @@ const Dashboard = () => {
       setLoading(true);
 
       try {
-        const { data } = await api.get("users");
+        const { data } = await api.get("GetCustomers/retrievecustomers", {
+          headers: { "X-IBM-Client-Id": process.env.REACT_APP_IBM_KEY },
+        });
 
-        setContacts(data);
+        console.log(data);
+        setContacts(data.Customers);
       } catch (err) {
         console.log(err, err.response);
 
@@ -61,8 +64,8 @@ const Dashboard = () => {
   // Filter the contacts
   useMemo(() => {
     const filterContact = (contact, searchTerm) =>
-      contact.name.toLowerCase().includes(searchTerm) ||
-      contact.email.toLowerCase().includes(searchTerm);
+      contact.Name.toLowerCase().includes(searchTerm) ||
+      contact.Email.toLowerCase().includes(searchTerm);
 
     const searchTerm = searchValue.toLowerCase().trim();
     setFilteredContacts(contacts.filter((contact) => filterContact(contact, searchTerm)));

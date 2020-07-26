@@ -26,6 +26,8 @@ const DisplayInfo = ({ title, message }) => (
 );
 
 const ContactDialog = ({ open, onClose, contact }) => {
+  const notAddedMessage = "Not added yet";
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth TransitionComponent={Transition}>
       <DialogTitle>
@@ -33,7 +35,7 @@ const ContactDialog = ({ open, onClose, contact }) => {
           <Avatar className="mr-3">
             <Person />
           </Avatar>
-          {contact.name}
+          {contact.Name}
         </Grid>
       </DialogTitle>
 
@@ -42,21 +44,56 @@ const ContactDialog = ({ open, onClose, contact }) => {
       <DialogContent>
         <Grid container>
           <Grid item md={6}>
-            <DisplayInfo title="Name" message={contact.name} />
+            <DisplayInfo title="First name" message={contact.FirstName} />
           </Grid>
 
           <Grid item md={6}>
-            <DisplayInfo title="Email" message={contact.email} />
+            <DisplayInfo title="Last name" message={contact.LastName} />
           </Grid>
         </Grid>
 
         <Grid container>
           <Grid item md={6}>
-            <DisplayInfo title="Phone" message={contact.phone} />
+            <DisplayInfo title="Email" message={contact.Email} />
           </Grid>
 
           <Grid item md={6}>
-            <DisplayInfo title="website" message={contact.website} />
+            <DisplayInfo
+              title="Phone"
+              message={contact.Phone !== null ? contact.Phone : notAddedMessage}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item md={6}>
+            <DisplayInfo
+              title="Birth date"
+              message={contact.Birthdate !== null ? contact.Birthdate : notAddedMessage}
+            />
+          </Grid>
+
+          <Grid item md={6}>
+            <DisplayInfo
+              title="Description"
+              message={contact.Description !== null ? contact.Description : notAddedMessage}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item md={6}>
+            <DisplayInfo
+              title="Created platform"
+              message={contact.CreatedPlatform === "API" ? "API" : "Manually"}
+            />
+          </Grid>
+
+          <Grid item md={6}>
+            <DisplayInfo
+              title="Member since"
+              message={new Date(contact.CreatedDate).toLocaleDateString()}
+            />
           </Grid>
         </Grid>
       </DialogContent>

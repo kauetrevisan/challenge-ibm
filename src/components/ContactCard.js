@@ -34,16 +34,16 @@ const ContactCard = ({ contact }) => {
         <CardContent>
           <Grid container spacing={2}>
             <Grid item>
-              <Avatar>{contact.name[0]}</Avatar>
+              <Avatar>{contact.Name[0]}</Avatar>
             </Grid>
 
             <Grid item>
               <Typography>
-                <strong>{contact.name}</strong>
+                <strong>{contact.Name}</strong>
               </Typography>
 
               <Typography variant="subtitle2" color="textSecondary">
-                {contact.email}
+                {contact.Email}
               </Typography>
             </Grid>
           </Grid>
