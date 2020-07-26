@@ -2,7 +2,6 @@ import React from "react";
 // Material ui
 import {
   Dialog,
-  Slide,
   DialogTitle,
   Divider,
   DialogContent,
@@ -13,10 +12,8 @@ import {
   Avatar,
 } from "@material-ui/core";
 import { Person } from "@material-ui/icons";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
+// Components
+import Transition from "./DialogTransition";
 
 const DisplayInfo = ({ title, message }) => (
   <Typography>
