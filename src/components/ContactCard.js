@@ -43,7 +43,7 @@ const ContactCard = ({ contact }) => {
               </Typography>
 
               <Typography variant="subtitle2" color="textSecondary">
-                {contact.Email}
+                {contact.Email !== null ? contact.Email : "Not added yet"}
               </Typography>
             </Grid>
           </Grid>

@@ -54,7 +54,10 @@ const ContactDialog = ({ open, onClose, contact }) => {
 
         <Grid container>
           <Grid item md={6}>
-            <DisplayInfo title="Email" message={contact.Email} />
+            <DisplayInfo
+              title="Email"
+              message={contact.Email !== null ? contact.Email : notAddedMessage}
+            />
           </Grid>
 
           <Grid item md={6}>
