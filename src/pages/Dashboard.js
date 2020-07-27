@@ -65,9 +65,10 @@ const Dashboard = () => {
 
   // Filter the contacts
   useMemo(() => {
+    
     const filterContact = (contact, searchTerm) =>
-      contact.Name.toLowerCase().includes(searchTerm) ||
-      contact.Email.toLowerCase().includes(searchTerm);
+    contact.Name.toLowerCase().includes(searchTerm) ||
+    (contact.Email !== null && contact.Email.toLowerCase().includes(searchTerm));
 
     const searchTerm = searchValue.toLowerCase().trim();
     setFilteredContacts(contacts.filter((contact) => filterContact(contact, searchTerm)));

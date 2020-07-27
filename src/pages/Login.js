@@ -6,6 +6,7 @@ import { Typography, makeStyles, Paper, Button } from "@material-ui/core";
 // Components
 import CustomTextField from "../components/CustomTextField";
 import CustomSnackbar from "../components/CustomSnackbar";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   // Hooks
   const classes = useStyles();
-
-  const [snackbar, setSnackbar] = useState({ open: false, type: "info", message: "" });
+  const history = useHistory();
 
   const initialValues = { email: "", password: "" };
 
@@ -36,11 +36,8 @@ const Login = () => {
   const handleSubmit = (data) => {
     console.log(data);
 
-    setSnackbar({
-      open: true,
-      type: "error",
-      message: "An error happened when getting the contacts",
-    });
+    history.push("/dashboard");
+    
   };
 
   return (
@@ -84,13 +81,6 @@ const Login = () => {
           )}
         </Formik>
       </Paper>
-
-      <CustomSnackbar
-        open={snackbar.open}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-        type={snackbar.type}
-        message={snackbar.message}
-      />
     </div>
   );
 };
